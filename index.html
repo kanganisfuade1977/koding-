@@ -1693,6 +1693,7 @@
             <button class="btn-3d btn-sm btn-slate" id="btn-nav-back" onclick="goBackToMap()" title="Kembali ke Peta">⬅ KEMBALI</button>
             <button class="btn-3d btn-sm btn-amber" onclick="openHintModal()" title="Bantuan Robo">💡 PETUNJUK</button>
             <button class="btn-3d btn-sm btn-slate" onclick="retryCurrentScreen()" title="Ulangi Tantangan Ini">🔄 ULANGI</button>
+            <button class="btn-3d btn-sm btn-purple" id="btn-fullscreen" onclick="toggleFullscreen()" title="Layar Penuh">🖥️ FULLSCREEN</button>
             <button class="btn-3d btn-sm btn-green" id="btn-nav-next" onclick="goNextLevel()" disabled title="Lanjut ke Misi Berikutnya">LANJUT ➡</button>
         </div>
     </footer>
@@ -2970,6 +2971,30 @@
             playSFX('click');
             document.getElementById('hint-modal').classList.remove('open');
         }
+
+        function toggleFullscreen() {
+            playSFX('click');
+            try {
+                if (!document.fullscreenElement) {
+                    if (document.documentElement.requestFullscreen) {
+                        document.documentElement.requestFullscreen();
+                    }
+                } else {
+                    if (document.exitFullscreen) {
+                        document.exitFullscreen();
+                    }
+                }
+            } catch (e) {
+                console.warn('Mode layar penuh tidak didukung di lingkungan ini:', e);
+            }
+        }
+
+        document.addEventListener('fullscreenchange', () => {
+            const btnFs = document.getElementById('btn-fullscreen');
+            if (btnFs) {
+                btnFs.textContent = document.fullscreenElement ? '🗗 KELUAR FULLSCREEN' : '🖥️ FULLSCREEN';
+            }
+        });
 
         /* =========================================================
            15. LOGIKA MODE 1 VS 1 (ADU CEPAT - KIRI VS KANAN)
